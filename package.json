@@ -16,6 +16,7 @@
         "postcss": "^8.1.14"
     },
     "dependencies": {
-        "bootstrap-table": "^1.18.3"
+        "bootstrap-table": "^1.18.3",
+        "jquery-ujs": "^1.2.3"
     }
 }

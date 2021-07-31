@@ -15,10 +15,12 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::latest()->paginate(5);
+        $products = Product::all();
+        return view('products')->with('products',$products);
+       // $products = Product::latest()->paginate(5);
 
-        return view('products', compact('products'))
-            ->with('i', (request()->input('page', 1) - 1) * 5);
+        //return view('products', compact('products'))
+            //->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
     /**
@@ -47,6 +49,16 @@ class ProductController extends Controller
         ]);
         $product = Product::create($storedData);
         return redirect('/products')->with('success','Product created!');
+        //$this->validate($request,[
+            //'name' => 'required|max:255',
+            //'price' => 'required',
+
+        //]);
+       // $prod = new Product;
+        //$prod->name = $request->input('name');
+        //$prod->price = $request->input('price');
+        //$prod-> save();
+        //return redirect('/products')->with('success','Product created!');
     }
 
     /**
@@ -78,16 +90,27 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product)
+    public function update(Request $request, $id)
     {
-        $data = $request->validate([
+        $storedData =$request->validate([
             'name' => 'required|max:255',
-            'price' => 'required|numeric',
+            'price' => 'required',
 
         ]);
+        $product = Product::find($id);
+        $product->name = $request->input('name');
+        $product->price = $request->input('price');
+        $product-> save();
+        return redirect('/products')->with('success','Product updated!');
 
-        //Product::whereId($product.$id)->update($data);
-        return redirect('/employees')->with('completed', 'Employee updated');
+       // $data = $request->validate([
+           // 'name' => 'required|max:255',
+            //'price' => 'required',
+
+       // ]);
+
+        //Product::whereId($id)->update($data);
+        //return redirect('/products')->with('success', 'Product updated');
     }
 
     /**
@@ -96,8 +119,10 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product)
+    public function destroy($id)
     {
-        //
+        $products = Product::find($id);
+        $products->delete();
+        return redirect('/products')->with('success','Product deleted!');
     }
 }

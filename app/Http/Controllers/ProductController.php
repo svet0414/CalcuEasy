@@ -5,10 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Contracts\Validation\Validator as ContractsValidationValidator;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Validator as ValidationValidator;
+
 
 class ProductController extends Controller
 {
@@ -21,19 +19,15 @@ class ProductController extends Controller
     {
         $products = Product::all();
         return view('products')->with('products', $products);
-        // $products = Product::latest()->paginate(5);
-
-        //return view('products', compact('products'))
-        //->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
-    public function fetchProducts(){
+    public function fetchProducts()
+    {
 
-            $products=Product::all();
-            return response()->json([
-                'products'=>$products,
-            ]);
-
+        $products = Product::all();
+        return response()->json([
+            'products' => $products,
+        ]);
     }
     /**
      * Show the form for creating a new resource.
@@ -54,50 +48,25 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        // $prodID = $request->id;
-        // $product   =   Product::updateOrCreate(
-        //     ['id' => $prodID],
-        //     ['name' => $request->name, 'price' => $request->price]
-        // );
 
-        // return Response::json($product);
-        //     $storedData =$request->validate([
-        //         'name' => 'required|max:255',
-        //         'price' => 'required',
-
-        //     ]);
-        //     $product = Product::create($storedData);
-        //     return redirect('/products')->with('success','Product created!');
-        //     //$this->validate($request,[
-        //         //'name' => 'required|max:255',
-        //         //'price' => 'required',
-
-        //     //]);
-        //    // $prod = new Product;
-        //     //$prod->name = $request->input('name');
-        //     //$prod->price = $request->input('price');
-        //     //$prod-> save();
-        //     //return redirect('/products')->with('success','Product created!');
 
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'price' => 'required',
         ]);
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json([
-                'status'=>400,
-                'errors'=>$validator->messages(),
+                'status' => 400,
+                'errors' => $validator->messages(),
             ]);
-
-        }
-        else{
-            $product= new Product;
+        } else {
+            $product = new Product;
             $product->name = $request->input('name');
             $product->price = $request->input('price');
             $product->save();
             return response()->json([
-                'status'=>200,
-                'message'=>'Product Added Successfully'
+                'status' => 200,
+                'message' => 'Product Added Successfully'
             ]);
         }
     }
@@ -122,16 +91,15 @@ class ProductController extends Controller
     public function editProducts($id)
     {
         $product = Product::find($id);
-        if($product){
+        if ($product) {
             return response()->json([
-                'status'=>200,
-                'product'=>$product,
+                'status' => 200,
+                'product' => $product,
             ]);
-        }
-        else{
+        } else {
             return response()->json([
-                'status'=>404,
-                'message'=>'Product Not Found',
+                'status' => 404,
+                'message' => 'Product Not Found',
             ]);
         }
     }
@@ -149,36 +117,33 @@ class ProductController extends Controller
             'name' => 'required',
             'price' => 'required',
         ]);
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json([
-                'status'=>400,
-                'errors'=>$validator->messages(),
+                'status' => 400,
+                'errors' => $validator->messages(),
             ]);
-
-        }
-        else{
-            $product= Product::find($id);
-            if($product){
+        } else {
+            $product = Product::find($id);
+            if ($product) {
                 $product->name = $request->input('name');
                 $product->price = $request->input('price');
                 $product->update();
                 return response()->json([
-                    'status'=>200,
-                    'message'=>'Product Updated Successfully'
-            ]);
-            }
-            else{
+                    'status' => 200,
+                    'message' => 'Product Updated Successfully'
+                ]);
+            } else {
                 return response()->json([
-                    'status'=>404,
-                    'message'=>'Product Not Found',
+                    'status' => 404,
+                    'message' => 'Product Not Found',
                 ]);
             }
             $product->name = $request->input('name');
             $product->price = $request->input('price');
             $product->update();
             return response()->json([
-                'status'=>200,
-                'message'=>'Product Updated Successfully'
+                'status' => 200,
+                'message' => 'Product Updated Successfully'
             ]);
         }
     }
@@ -194,8 +159,8 @@ class ProductController extends Controller
         $products = Product::find($id);
         $products->delete();
         return response()->json([
-            'status'=>200,
-            'message'=>'Product Deleted Successfully'
+            'status' => 200,
+            'message' => 'Product Deleted Successfully'
         ]);
     }
 }

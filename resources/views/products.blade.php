@@ -107,11 +107,16 @@
   <!-- end of modal delete product -->
 
 <div class="container py-y">
-    <h1>Products</h1>
-   <div id="success-message"></div>
-    <button type="button" class="btn btn-primary create-new-product" id="create-new-product" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    <div class="card">
+        <div class="card-header">
+    <h1>Products
+        <button type="button" class="btn btn-primary float-end create-new-product" id="create-new-product" data-bs-toggle="modal" data-bs-target="#exampleModal" style="background-color:green">
         Create New Product
-      </button>
+      </button></h1>
+   <div id="success-message"></div>
+
+        </div>
+    </div>
       <style type="text/css">
         .currency:after{content:' dkk';}
 
@@ -126,20 +131,12 @@
           </tr>
         </thead>
         <tbody id="products-crud">
-           @foreach ($products as $prodData )
 
-          @endforeach
         </tbody>
       </table>
 
 </div>
 
-<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.min.js"></script>
-<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>-->
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
@@ -147,123 +144,6 @@
 <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
 
 <script>
-
-    // $(document).ready(function(){
-    //     var table=$('#datatable').DataTable();
-    //     //edit
-    //     table.on('click','.edit', function(){
-    //         $tr=$(this).closest('tr');
-    //         if($($tr).hasClass('child')){
-    //             $tr=$tr.prev('.parent');
-    //         }
-
-    //         var data = table.row($tr).data();
-    //         console.log(data);
-    //         $('#name').val(data[1]);
-    //         $('#price').val(data[2]);
-
-    //         $('#editForm').attr('action','products/'+data[0]);
-    //         $('#editModal').modal('show');
-    //     });
-    //     //edit end
-
-    //     //delete
-    //     table.on('click','.delete', function(){
-    //         $tr=$(this).closest('tr');
-    //         if($($tr).hasClass('child')){
-    //             $tr=$tr.prev('.parent');
-    //         }
-
-    //         var data = table.row($tr).data();
-    //         console.log(data);
-    //         $('#id').val(data[0])
-
-    //         $('#deleteForm').attr('action','products/'+data[0]);
-    //         $('#deleteModal').modal('show');
-    //     });
-    //     //delete end
-    //});
-
-
-//         $(document).ready(function () {
-//     $.ajaxSetup({
-//         headers: {
-//             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-//         }
-//     });
-//     $('.create-new-product').click(function () {
-//         $('#btn-save').val("create-product");
-//         $('#addForm').trigger("reset");
-//         //$('#exampleModal').html("Add New product");
-//         //$('#exampleModal').modal('show');
-//     });
-
-//     $('body').on('click', '#edit-product', function () {
-//       var prod_id = $(this).data('id');
-//       $.get('products/'+prod_id+'/edit', function (data) {
-//          $('#editModal').html("Edit post");
-//           $('#btn-save').val("edit-product");
-//           $('#editModal').modal('show');
-//           //$('#post_id').val(data.id);
-//           $('#name').val(data.name);
-//           $('#price').val(data.price);
-//       })
-//    });
-//     $('body').on('click', '.delete-product', function () {
-//         var prod_id = $(this).data("id");
-//         confirm("Are You sure want to delete !");
-
-//         $.ajax({
-//             type: "DELETE",
-//             url: "{{ url('products')}}"+'/'+prod_id,
-//             success: function (data) {
-//                 $("#id" + prod_id).remove();
-//             },
-//             error: function (data) {
-//                 console.log('Error:', data);
-//             }
-//         });
-//     });
-//   });
-
-//  if ($("#addForm").length > 0) {
-//       $("#addForm").validate({
-
-//      submitHandler: function(form) {
-//       var actionType = $('#btn-save').val();
-//       $('#btn-save').html('Sending..');
-
-//       $.ajax({
-//           data: $('#addForm').serialize(),
-//           url: "{{ route('products.store') }}",
-//           type: "POST",
-//           dataType: 'json',
-//           success: function (data) {
-//               var post = '<tr id="prod_id_' + data.id + '"><td>' + data.id + '</td><td>' + data.title + '</td><td>' + data.body + '</td>';
-//               post += '<td><a href="javascript:void(0)" id="edit-product" data-id="' + data.id + '" class="btn btn-info">Edit</a></td>';
-//               post += '<td><a href="javascript:void(0)" id="delete-product" data-id="' + data.id + '" class="btn btn-danger delete-product">Delete</a></td></tr>';
-
-
-//               if (actionType == "create-product") {
-//                   $('#products-crud').prepend(post);
-//               } else {
-//                   $("#id" + data.id).replaceWith(post);
-//               }
-
-//               $('#addForm').trigger("reset");
-//               $('#exampleModal').modal('show');
-//               $('#btn-save').html('Save Changes');
-
-//           },
-//           error: function (data) {
-//               console.log('Error:', data);
-//               $('#btn-save').html('Save Changes');
-//           }
-//       });
-//     }
-//   })
-// }
-
 
 $(document).ready(function(){
 //fetching data in table
